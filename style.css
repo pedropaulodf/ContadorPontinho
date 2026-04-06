@@ -25,7 +25,7 @@ html {
   min-height: 100%;
   -webkit-text-size-adjust: 100%;
   background:
-    radial-gradient(circle at top left, rgba(200, 111, 49, 0.16), transparent 28%),
+    radial-gradient(circle at top left, #c86f3129, transparent 28%),
     linear-gradient(180deg, #f8f2ea 0%, var(--bg) 55%, #eee2d3 100%);
   background-color: var(--bg);
 }
@@ -785,6 +785,7 @@ input:focus {
 }
 
 @media (hover: none) and (pointer: coarse) {
+
   input[type="text"],
   input[type="number"],
   input[type="tel"] {
