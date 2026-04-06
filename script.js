@@ -247,7 +247,7 @@ function bindEvents() {
   elements.audioLibraryModal.addEventListener("click", handleAudioLibraryBackdropClick);
   elements.audioLibraryList.addEventListener("click", handleAudioLibraryListClick);
   elements.playersView.addEventListener("click", handlePlayersViewClick);
-  elements.playersView.addEventListener("keydown", handlePlayersViewKeydown);
+  elements.playersView.addEventListener("submit", handlePlayersViewSubmit);
   elements.viewToggle.addEventListener("click", handleViewToggleClick);
   elements.togglePlayersButton.addEventListener("click", handlePlayersPanelToggle);
   elements.modalCancelButton.addEventListener("click", closeConfirmModal);
@@ -347,12 +347,6 @@ function handleResetMatch() {
 }
 
 function handlePlayersViewClick(event) {
-  const applyButton = event.target.closest("[data-apply-loss]");
-  if (applyButton) {
-    applyPlayerLoss(applyButton.dataset.applyLoss);
-    return;
-  }
-
   const deleteEntryButton = event.target.closest("[data-delete-entry]");
   if (deleteEntryButton) {
     deleteHistoryEntry(deleteEntryButton.dataset.rowId, deleteEntryButton.dataset.playerId);
@@ -390,18 +384,14 @@ function handlePlayersViewClick(event) {
   });
 }
 
-function handlePlayersViewKeydown(event) {
-  if (event.key !== "Enter") {
-    return;
-  }
-
-  const lossInput = event.target.closest("[data-loss-input]");
-  if (!lossInput) {
+function handlePlayersViewSubmit(event) {
+  const lossForm = event.target.closest("[data-loss-form]");
+  if (!lossForm) {
     return;
   }
 
   event.preventDefault();
-  applyPlayerLoss(lossInput.dataset.lossInput);
+  applyPlayerLoss(lossForm.dataset.lossForm);
 }
 
 function handleViewToggleClick(event) {
@@ -624,24 +614,23 @@ function renderTableView(scoreMeta) {
             ${state.players
               .map((player) => `
                 <td>
-                  <div class="input-inline">
+                  <form class="input-inline" data-loss-form="${player.id}">
                     <input
                       type="tel"
                       inputmode="numeric"
-                      enterkeyhint="done"
+                      enterkeyhint="send"
                       placeholder="0"
                       data-loss-input="${player.id}"
                       aria-label="Pontos perdidos por ${escapeHtml(player.name)}"
                     >
                     <button
-                      type="button"
+                      type="submit"
                       class="button button--primary button--small input-inline__button"
-                      data-apply-loss="${player.id}"
                       aria-label="Aplicar perda para ${escapeHtml(player.name)}"
                     >
                       <span aria-hidden="true">✓</span>
                     </button>
-                  </div>
+                  </form>
                 </td>
               `)
               .join("")}
@@ -707,24 +696,23 @@ function renderCardsView(scoreMeta) {
                   </div>
 
                   <div class="player-card__actions">
-                    <div class="input-inline">
+                    <form class="input-inline" data-loss-form="${player.id}">
                       <input
                         type="tel"
                         inputmode="numeric"
-                        enterkeyhint="done"
+                        enterkeyhint="send"
                         placeholder="0"
                         data-loss-input="${player.id}"
                         aria-label="Pontos perdidos por ${escapeHtml(player.name)}"
                       >
                       <button
-                        type="button"
+                        type="submit"
                         class="button button--primary button--small input-inline__button"
-                        data-apply-loss="${player.id}"
                         aria-label="Aplicar perda para ${escapeHtml(player.name)}"
                       >
                         <span aria-hidden="true">✓</span>
                       </button>
-                    </div>
+                    </form>
                   </div>
                 </div>
 
