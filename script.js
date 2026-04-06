@@ -247,6 +247,7 @@ function bindEvents() {
   elements.audioLibraryModal.addEventListener("click", handleAudioLibraryBackdropClick);
   elements.audioLibraryList.addEventListener("click", handleAudioLibraryListClick);
   elements.playersView.addEventListener("click", handlePlayersViewClick);
+  elements.playersView.addEventListener("keydown", handlePlayersViewKeydown);
   elements.viewToggle.addEventListener("click", handleViewToggleClick);
   elements.togglePlayersButton.addEventListener("click", handlePlayersPanelToggle);
   elements.modalCancelButton.addEventListener("click", closeConfirmModal);
@@ -387,6 +388,20 @@ function handlePlayersViewClick(event) {
       setFeedback(`Jogador "${player.name}" removido.`, "success");
     },
   });
+}
+
+function handlePlayersViewKeydown(event) {
+  if (event.key !== "Enter") {
+    return;
+  }
+
+  const lossInput = event.target.closest("[data-loss-input]");
+  if (!lossInput) {
+    return;
+  }
+
+  event.preventDefault();
+  applyPlayerLoss(lossInput.dataset.lossInput);
 }
 
 function handleViewToggleClick(event) {
@@ -613,6 +628,7 @@ function renderTableView(scoreMeta) {
                     <input
                       type="tel"
                       inputmode="numeric"
+                      enterkeyhint="done"
                       placeholder="0"
                       data-loss-input="${player.id}"
                       aria-label="Pontos perdidos por ${escapeHtml(player.name)}"
@@ -695,6 +711,7 @@ function renderCardsView(scoreMeta) {
                       <input
                         type="tel"
                         inputmode="numeric"
+                        enterkeyhint="done"
                         placeholder="0"
                         data-loss-input="${player.id}"
                         aria-label="Pontos perdidos por ${escapeHtml(player.name)}"
