@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contador de Pontos - Pontinho</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <section class="panel" aria-labelledby="cadastro-title">
+      <div class="panel__header panel__header--inline">
+        <div class="panel__title-group">
+          <p class="section-kicker">Partida</p>
+          <h1 id="cadastro-title">Jogadores</h1>
+        </div>
+
+        <button
+          type="button"
+          class="button button--ghost button--small"
+          id="toggle-players-button"
+          aria-expanded="true"
+          aria-controls="players-panel-body"
+        >
+          Ocultar
+        </button>
+      </div>
+
+      <div class="panel__body" id="players-panel-body">
+        <form class="add-player-form" id="add-player-form">
+          <label class="field">
+            <span class="field__label">Nome do jogador</span>
+            <div class="input-inline input-inline--name">
+              <input
+                id="player-name"
+                name="playerName"
+                type="text"
+                maxlength="24"
+                placeholder="Ex.: Ana"
+                autocomplete="off"
+                required
+              >
+              <button
+                type="submit"
+                class="button button--primary button--small input-inline__button"
+                aria-label="Adicionar jogador"
+              >
+                <span aria-hidden="true">+</span>
+              </button>
+            </div>
+          </label>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="placar-title">
+      <div class="panel__header panel__header--board">
+        <div>
+          <p class="section-kicker">Placar</p>
+          <h2 id="placar-title">Pontuação atual</h2>
+        </div>
+
+        <div class="board-actions">
+          <div class="view-toggle" id="view-toggle" role="group" aria-label="Modo de visualização">
+            <button type="button" class="button button--toggle" data-view-mode="table">
+              Tabela
+            </button>
+            <button type="button" class="button button--toggle" data-view-mode="cards">
+              Cards
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="players-view"></div>
+
+      <div class="board-footer">
+        <button type="button" class="button button--ghost button--small button--icon-text" id="reset-match-button">
+          <span aria-hidden="true">↺</span>
+          <span>Reiniciar</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="confirm-modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+      <div class="modal__content">
+        <p class="section-kicker">Confirmação</p>
+        <h2 id="confirm-modal-title">Confirmar ação</h2>
+        <p class="modal__message" id="confirm-modal-message"></p>
+      </div>
+
+      <div class="modal__actions">
+        <button type="button" class="button button--ghost button--small" id="modal-cancel-button">
+          Cancelar
+        </button>
+        <button type="button" class="button button--primary button--small" id="modal-confirm-button">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" class="audio-library-trigger" id="audio-library-trigger" aria-label="Abrir biblioteca de áudios">
+    ♪
+  </button>
+
+  <div class="modal-backdrop" id="audio-library-modal" hidden>
+    <div class="modal modal--audio-library" role="dialog" aria-modal="true" aria-labelledby="audio-library-title">
+      <div class="modal__content">
+        <p class="section-kicker">Biblioteca</p>
+        <h2 id="audio-library-title">Áudios de vitória</h2>
+        <p class="modal__message">Toque para ouvir qualquer áudio da lista.</p>
+      </div>
+
+      <div class="audio-library-list" id="audio-library-list"></div>
+
+      <div class="modal__actions">
+        <button type="button" class="button button--ghost button--small" id="audio-library-close-button">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="winner-modal" id="winner-modal" hidden></div>
+  <div class="confetti-layer" id="confetti-layer" aria-hidden="true" hidden></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
